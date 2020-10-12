@@ -1,5 +1,6 @@
 // pull in our models. This will automatically load the index.js from that folder
 const models = require('../models');
+
 const Cat = models.Cat.CatModel;
 const Dog = models.Dog.DogModel;
 
@@ -19,60 +20,60 @@ let lastAddedCat = new Cat(defaultCatData);
 let lastAddedDog = new Cat(defaultDogData);
 
 const hostIndex = (req, res) => {
-    res.render('index', {
-        currentCatName: lastAddedCat.name,
-        currentDogName: lastAddedDog.name,
-        title: 'Home',
-        pageName: 'Home Page',
-    });
+  res.render('index', {
+    currentCatName: lastAddedCat.name,
+    currentDogName: lastAddedDog.name,
+    title: 'Home',
+    pageName: 'Home Page',
+  });
 };
 
 const readAllCats = (req, res, callback) => {
-    Cat.find(callback).lean();
+  Cat.find(callback).lean();
 };
 
 const readAllDogs = (req, res, callback) => {
-    Dog.find(callback).lean();
+  Dog.find(callback).lean();
 };
 
 const readCat = (req, res) => {
-    const name1 = req.query.name;
-    
-    const callback = (err, doc) => {
-        if(err){
-            return res.status(500).json({err});  
-		}
+  const name1 = req.query.name;
 
-        return res.json(doc);
-	};
+  const callback = (err, doc) => {
+    if (err) {
+      return res.status(500).json({ err });
+    }
 
-    Cat.findByName(name1, callback);
+    return res.json(doc);
+  };
+
+  Cat.findByName(name1, callback);
 };
 
 const readDog = (req, res) => {
-    const name1 = req.query.name;
-    
-    const callback = (err, doc) => {
-        if(err){
-            return res.status(500).json({err});  
-		}
+  const name1 = req.query.name;
 
-        return res.json(doc);
-	};
+  const callback = (err, doc) => {
+    if (err) {
+      return res.status(500).json({ err });
+    }
 
-    Dog.findByName(name1, callback);
+    return res.json(doc);
+  };
+
+  Dog.findByName(name1, callback);
 };
 
 const hostPage1 = (req, res) => {
-    const callback = (err, docs) => {
-        if (err){
-            return res.status(500).json({err});
-		}
+  const callback = (err, docs) => {
+    if (err) {
+      return res.status(500).json({ err });
+    }
 
-        return res.render('page1', {cats: docs});
-	};
+    return res.render('page1', { cats: docs });
+  };
 
-    readAllCats(req, res, callback);
+  readAllCats(req, res, callback);
 };
 
 const hostPage2 = (req, res) => {
@@ -84,23 +85,23 @@ const hostPage3 = (req, res) => {
 };
 
 const hostPage4 = (req, res) => {
-    const callback = (err, docs) => {
-        if (err){
-            return res.status(500).json({err});
-		}
+  const callback = (err, docs) => {
+    if (err) {
+      return res.status(500).json({ err });
+    }
 
-        return res.render('page4', {dogs: docs});
-	};
+    return res.render('page4', { dogs: docs });
+  };
 
-    readAllDogs(req, res, callback);
+  readAllDogs(req, res, callback);
 };
 
 const getCatName = (req, res) => {
-    res.json({name: lastAddedCat.name});
+  res.json({ name: lastAddedCat.name });
 };
 
 const getDogName = (req, res) => {
-    res.json({name: lastAddedDog.name});
+  res.json({ name: lastAddedDog.name });
 };
 
 const setCatName = (req, res) => {
@@ -123,17 +124,14 @@ const setCatName = (req, res) => {
     lastAddedCat = newCat;
 
     res.json({
-        name: lastAddedCat.name,
-        beds: lastAddedCat.bedsOwned,
+      name: lastAddedCat.name,
+      beds: lastAddedCat.bedsOwned,
     });
   });
 
-  savePromise.catch((err) => {
-     return res.status(500).json({err});
-  });
+  savePromise.catch((err) => res.status(500).json({ err }));
 
   return res;
-
 };
 
 const setDogName = (req, res) => {
@@ -157,18 +155,15 @@ const setDogName = (req, res) => {
     lastAddedDog = newDog;
 
     res.json({
-        name: lastAddedDog.name,
-        breed: lastAddedDog.breed,
-        age: lastAddedDog.age,
+      name: lastAddedDog.name,
+      breed: lastAddedDog.breed,
+      age: lastAddedDog.age,
     });
   });
 
-  savePromise.catch((err) => {
-     return res.status(500).json({err});
-  });
+  savePromise.catch((err) => res.status(500).json({ err }));
 
   return res;
-
 };
 
 const searchCatName = (req, res) => {
@@ -177,17 +172,17 @@ const searchCatName = (req, res) => {
   }
 
   return Cat.findByName(req.query.name, (err, doc) => {
-    if(err){
-     return res.status(500).json({err});
-	}
+    if (err) {
+      return res.status(500).json({ err });
+    }
 
-    if(!doc){
-     return res.json({error: 'No Cats Found!'});
-	}
+    if (!doc) {
+      return res.json({ error: 'No Cats Found!' });
+    }
 
     return res.json({
-        name: doc.name,
-        beds: doc.bedsOwned,
+      name: doc.name,
+      beds: doc.bedsOwned,
     });
   });
 };
@@ -198,48 +193,50 @@ const searchDogName = (req, res) => {
   }
 
   return Dog.findByName(req.query.name, (err, doc) => {
-    if(err){
-     return res.status(500).json({err});
-	}
+    if (err) {
+      return res.status(500).json({ err });
+    }
 
-    if(!doc){
-     return res.json({error: 'No Dogs Found!'});
-	}
+    if (!doc) {
+      return res.json({ error: 'No Dogs Found!' });
+    }
 
-    
-    doc.age++;
-    
-    const savePromise = doc.save();
-    
+    const document = doc;
+    document.age++;
+
+    const savePromise = document.save();
+
     savePromise.then(() => {
-        res.json({
-            name: doc.name,
-            breed: doc.breed,
-            age: doc.age,
-        });
+      res.json({
+        name: document.name,
+        breed: document.breed,
+        age: document.age,
+      });
     });
-    
-    savePromise.catch((err) => {
-        res.status(500).json({err});
+
+    savePromise.catch((error) => {
+      res.status(500).json({ error });
     });
+
+    return true;
   });
 };
 
 const updateLastCat = (req, res) => {
-    lastAddedCat.bedsOwned++;
+  lastAddedCat.bedsOwned++;
 
-    const savePromise = lastAddedCat.save();
+  const savePromise = lastAddedCat.save();
 
-    savePromise.then(() => {
-        res.json({
-            name: lastAddedCat.name,
-            beds: lastAddedCat.bedsOwned,
-        });
+  savePromise.then(() => {
+    res.json({
+      name: lastAddedCat.name,
+      beds: lastAddedCat.bedsOwned,
     });
+  });
 
-    savePromise.catch((err) => {
-        res.status(500).json({err});
-    });
+  savePromise.catch((err) => {
+    res.status(500).json({ err });
+  });
 };
 
 const notFound = (req, res) => {
