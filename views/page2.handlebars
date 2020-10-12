@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
 <head>
   <meta charset="utf-8"/>
   <title>{{title}}</title>
@@ -10,8 +10,9 @@
   <a href="/">Home</a>
   <a href="/page1">Page 1</a>
   <a href="/page3">Page 3</a>
+  <a href="/page4">Page 4</a>
   
-  <form action="/setName" method="POST">
+  <form action="/setCatName" method="POST">
     <label for="firstname">First name:</label>
     <input type="text" name="firstname" value="">
     <label for="lastname">Last Name: </label>
@@ -25,14 +26,14 @@
   <br/>
   
 
-  <form action="/updateLast" method="POST">
+  <form action="/updateLastCat" method="POST">
     <input type="submit" value="Update Last">
   </form>
   
   <br/>
   <br/>
   
-  <form action="findByName" method="GET">
+  <form action="findByCatName" method="GET">
     <label for="name">Name to search for:</label>
     <input type="text" name="name" value="">
     <input type="submit" value="Submit">
